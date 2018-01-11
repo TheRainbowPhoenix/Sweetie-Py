@@ -184,7 +184,8 @@ async def fetch_image(self, ctx, randomize : bool=False, tags : list=[]):
 
 	# Fetch and display the image or an error
 	try:
-		async with aiohttp.get(search) as r:
+		header =  {'user-agent': 'NewtFinder/1.0 (by kiranoot on e621)'}
+		async with aiohttp.request('get',search,headers=header) as r:
 			website = await r.json()
 		if website != []:
 			if "success" not in website:
@@ -222,7 +223,7 @@ async def fetch_image(self, ctx, randomize : bool=False, tags : list=[]):
 
 					# Sets the tags to be listed
 					tagList = website[0].get('tags').replace(' ', ', ').replace('_', '\_')
-					
+
 					# Initialize verbose embed
 					output = discord.Embed(title=embedTitle, url=embedLink, colour=discord.Colour(value=int(ratingColor, 16)))
 
